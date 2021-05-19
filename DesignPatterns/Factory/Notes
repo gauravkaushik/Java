@@ -1,0 +1,47 @@
+package headfirst.factory.pizzas;
+
+public class PizzaStore {
+	SimplePizzaFactory factory;
+
+	public PizzaStore(SimplePizzaFactory factory) {
+		this.factory = factory;
+	}
+
+	public Pizza orderPizza(String type) {
+		Pizza pizza;
+
+		pizza = factory.createPizza(type);
+		// By doing this, we are delegating the changing part of the code to another object i.e. the factory object
+		// Instead of creating a factory class, we can have only a static factory method but in that case, we can't
+		// override it.
+
+		pizza.prepare();
+		pizza.bake();
+		pizza.cut();
+		pizza.box();
+
+		return pizza;
+	}
+
+}
+
+
+package headfirst.factory.pizzas;
+
+public class SimplePizzaFactory {
+
+	public Pizza createPizza(String type) {
+		Pizza pizza = null;
+
+		if (type.equals("cheese")) {
+			pizza = new CheesePizza();
+		} else if (type.equals("pepperoni")) {
+			pizza = new PepperoniPizza();
+		} else if (type.equals("clam")) {
+			pizza = new ClamPizza();
+		} else if (type.equals("veggie")) {
+			pizza = new VeggiePizza();
+		}
+		return pizza;
+	}
+}
